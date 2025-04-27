@@ -22,6 +22,21 @@
           sslverify: 1
           sslcacert: /etc/pki/tls/certs/ca-bundle.crt
           metadata_expire: 300
+    ri_debian_dependencies_packages: ["apt-transport-https", "ca-certificates", "curl", "gnupg"]
+    ri_debian_distro_repos:
+      - name: opentofu
+        baseurl: https://packages.opentofu.org/opentofu/tofu/any/
+        distribution: any
+        components: ["main"]
+        type: "deb"
+        gpgkeys:
+          - id: main
+            url: https://get.opentofu.org/opentofu.gpg
+            type: "gpg"
+          - id: repo
+            url: https://packages.opentofu.org/opentofu/tofu/gpgkey
+            type: "gpg"
+        is_external_repo: true
   tasks:
     - name: Include willbrid.repo_installer
       ansible.builtin.include_role:
