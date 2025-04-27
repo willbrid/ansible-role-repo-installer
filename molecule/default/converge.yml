@@ -1,0 +1,28 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  vars:
+    ri_redhat_distro_repos:
+      - name: epel
+        description: EPEL YUM repo
+        baseurl: https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch/
+        is_external_repo: false
+      - name: opentofu
+        description: opentofu
+        baseurl: https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/\$basearch
+        is_external_repo: true
+        enabled: true
+        extra_options:
+          repo_gpgcheck: 0
+          gpgcheck: 1
+          gpgkey: >
+            https://get.opentofu.org/opentofu.gpg
+            https://packages.opentofu.org/opentofu/tofu/gpgkey
+          sslverify: 1
+          sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+          metadata_expire: 300
+  tasks:
+    - name: Include willbrid.repo_installer
+      ansible.builtin.include_role:
+        name: "willbrid.repo_installer"
