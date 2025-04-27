@@ -1,5 +1,5 @@
 ---
-- name: Add official repo
+- name: Add official repo [RedHat]
   ansible.builtin.yum_repository:
     name: "{{ item.name }}"
     description: "{{ item.description }}"
@@ -8,7 +8,7 @@
   when: item.is_external_repo == false
   with_items: "{{ ri_redhat_distro_repos }}"
   
-- name: Add external repo
+- name: Add external repo [RedHat]
   ansible.builtin.template:
     src: "{{ ri_redhat_repo_template }}"
     dest: "{{ ri_redhat_repo_dir }}/{{ item.name }}.repo"
