@@ -1,0 +1,91 @@
+---
+argument_specs:
+  main:
+    short_description: "Install packages repositories for Linux"
+    description:
+      - "Install packages repositories for RedHat and Debian distros"
+    author: "WillBrid"
+    options:
+      ri_debian_distro_repos:
+        type: list
+        elements: "dict"
+        required: false
+        default: []
+        description: "List of Debian repositories to configure"
+        options:
+          name:
+            type: str
+            required: true
+            description: "The name identifier of the repository"
+          baseurl:
+            type: str
+            required: true
+            description: "The base URL for the repository"
+          distribution:
+            type: str
+            required: true
+            description: "The distribution (example: focal, bullseye, noble,...) used for the repository"
+          components:
+            type: list
+            elements: str
+            required: true
+            description: "The components (example: main, stable,...) for the repository"
+          gpgkey:
+            type: str
+            required: false
+            description: "Optional URL to the GPG key for the repository"
+          gpgkey_checksum:
+            type: str
+            required: false
+            description: "Optional checksum to the GPG key for the repository"
+          type:
+            type: str
+            required: false
+            default: "deb"
+            description: "The repository type (usually 'deb' or 'deb-src')"
+            choices:
+              - "deb"
+              - "deb-src"
+          is_external_repo:
+            type: bool
+            required: false
+            default: true
+            description: "Whether the repository is an official Debian repository (false) or an external/custom repository (true)"
+          arch:
+            type: str
+            required: false
+            description: "This repository is only valid for machines using the specified architecture (example: amd64, arm64,...)"
+      ri_redhat_distro_repos:
+        type: list
+        elements: "dict"
+        required: false
+        default: []
+        description: "List of RedHat repositories to configure"
+        options:
+          name:
+            type: str
+            required: true
+            description: "The name identifier of the repository"
+          description:
+            type: str
+            required: false
+            description: "The description of the repository"
+          baseurl:
+            type: str
+            required: true
+            description: "The base URL for the repository"
+          is_external_repo:
+            type: bool
+            required: false
+            default: true
+            description: "Whether the repository is an official RedHat repository (false) or an external/custom repository (true)"
+          enabled:
+            type: bool
+            required: false
+            default: true
+            description: "Whether the repository is enabled"
+          extra_options:
+            type: str
+            required: false
+            default: {}
+            description: "Optional extra options of the repository"
