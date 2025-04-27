@@ -1,0 +1,9 @@
+[{{ item.name }}]
+name={{ item.description if item.description is defined and item.description != "" else item.name }}
+baseurl={{ item.baseurl }}
+enabled={{ '1' if item.enabled else '0' }}
+{% if item.extra_options is defined %}
+{% for key, value in item.extra_options.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endif %}
