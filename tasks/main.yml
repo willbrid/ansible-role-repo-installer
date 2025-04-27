@@ -1,0 +1,17 @@
+---
+- name: Check if the variable ri_redhat_distro_repos is non-empty with RedHat distros
+  ansible.builtin.assert:
+    that:
+      - ri_redhat_distro_repos is iterable and ri_redhat_distro_repos | length > 0
+    fail_msg: "to better use this role with RedHat distros, the variable ri_redhat_distro_repos must be defined"
+  when: ansible_os_family == "RedHat"
+
+- name: Check if the variable ri_debian_distro_repos is non-empty with Debian distros
+  ansible.builtin.assert:
+    that:
+      - ri_debian_distro_repos is iterable and ri_debian_distro_repos | length > 0
+    fail_msg: "to better use this role with Debian distros, the variable ri_debian_distro_repos must be defined"
+  when: ansible_os_family == "Debian"
+
+- name: Install {{ ansible_os_family }} repositories
+  ansible.builtin.include_tasks: install-for-{{ ansible_os_family }}.yml
