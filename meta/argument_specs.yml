@@ -6,6 +6,12 @@ argument_specs:
       - "Install packages repositories for RedHat and Debian distros"
     author: "WillBrid"
     options:
+      ri_debian_dependencies_packages:
+        type: list
+        required: false
+        elements: str
+        default: []
+        description: "List of Debian dependencies packages before installing repositories"
       ri_debian_distro_repos:
         type: list
         elements: "dict"
@@ -30,14 +36,33 @@ argument_specs:
             elements: str
             required: true
             description: "The components (example: main, stable,...) for the repository"
-          gpgkey:
-            type: str
+          gpgkeys:
+            type: list
+            elements: "dict"
             required: false
-            description: "Optional URL to the GPG key for the repository"
-          gpgkey_checksum:
-            type: str
-            required: false
-            description: "Optional checksum to the GPG key for the repository"
+            default: []
+            description: "List of GPG key for the repository"
+            options:
+              id:
+                type: str
+                required: true
+                description: Unique identifier of a gpg key
+              url:
+                type: str
+                required: true
+                description: "Optional url to a GPG key for the repository"
+              type:
+                type: str
+                required: false
+                default: "asc"
+                description: "Optional type to a GPG key for the repository"
+                choices:
+                  - "asc"
+                  - "gpg"
+              checksum:
+                type: str
+                required: false
+                description: "Optional download checksum to a GPG key for the repository"
           type:
             type: str
             required: false
