@@ -1,0 +1,19 @@
+---
+- name: Add official repo
+  ansible.builtin.yum_repository:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.baseurl }}"
+    enabled: "{{ item.enabled | default(true) }}"
+  when: item.is_external_repo == false
+  with_items: "{{ ri_redhat_distro_repos }}"
+  
+- name: Add external repo
+  ansible.builtin.template:
+    src: "{{ ri_redhat_repo_template }}"
+    dest: "{{ ri_redhat_repo_dir }}/{{ item.name }}.repo"
+    owner: root
+    group: root
+    mode: '0644'
+  when: item.is_external_repo == true  
+  with_items: "{{ ri_redhat_distro_repos }}"
