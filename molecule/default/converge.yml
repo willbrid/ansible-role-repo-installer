@@ -40,7 +40,7 @@
   pre_tasks:
     - name: Install curl
       ansible.builtin.apt:
-        pkg: ['curl','gnupg']
+        pkg: ['curl', 'gnupg']
         state: present
         update_cache: yes
     - name: Download opentofu asc repo key and save in /tmp/opentofu-repo.gpg [Debian]
