@@ -1,0 +1,42 @@
+---
+- name: Install dependencies packages before adding repositories [Debian]
+  ansible.builtin.apt:
+    pkg: "{{ ri_debian_dependencies_packages }}"
+    state: present
+  when: ri_debian_dependencies_packages is iterable and ri_debian_dependencies_packages | length > 0
+
+- name: Create repo keys directory [Debian]
+  ansible.builtin.file:
+    name: "{{ ri_debian_repo_keys_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Add apt key for external repo [Debian]
+  ansible.builtin.get_url:
+    url: "{{ item.1.url }}"
+    dest: "{{ ri_debian_repo_keys_dir }}/{{ item.0.name }}-{{ item.1.id }}.{{ item.1.type }}"
+    checksum: "{{ item.1.checksum | default(omit) }}"
+  when: item.0.is_external_repo == true
+  loop: "{{ ri_debian_distro_repos | subelements('gpgkeys') }}"
+
+- name: Add repo line [Debian]
+  ansible.builtin.apt_repository:
+    repo: >-
+      {{ item.type }}{{ ' ' }}
+      {%- if item.arch is defined or item.is_external_repo == true -%}
+      [
+        {%- if item.arch is defined %}arch={{ item.arch }}{% endif -%}
+        {%- if item.arch is defined and item.is_external_repo == true %} {% endif -%}
+        {%- if item.is_external_repo == true %}signed-by={% for key in item.gpgkeys -%}{{ ri_debian_repo_keys_dir }}/{{ item.name }}-{{ key.id }}.{{ key.type }}{{ ',' if not loop.last }}{%- endfor %}{% endif -%}
+      ]
+      {%- endif -%}
+      {{ ' ' }}{{ item.baseurl }} {{ item.distribution }} {{ item.components | join(' ') }}
+    state: present
+    filename: "{{ item.is_external_repo == true | ternary(item.name, omit) }}"
+  with_items: "{{ ri_debian_distro_repos }}"
+
+- name: Update packages list [Debian]
+  ansible.builtin.apt:
+    update_cache: yes
