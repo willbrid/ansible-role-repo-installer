@@ -34,9 +34,20 @@
             url: https://get.opentofu.org/opentofu.gpg
             type: "gpg"
           - id: repo
-            url: https://packages.opentofu.org/opentofu/tofu/gpgkey
+            url: file:///tmp/opentofu-repo.gpg
             type: "gpg"
         is_external_repo: true
+  pre_tasks:
+    - name: Install curl
+      ansible.builtin.apt:
+        pkg: ['curl']
+        state: present
+        update_cache: yes
+    - name: Download opentofu asc repo key and save in /tmp/opentofu-repo.gpg [Debian]
+      ansible.builtin.shell: "curl -fsSL https://packages.opentofu.org/opentofu/tofu/gpgkey | gpg --no-tty --batch --dearmor -o /tmp/opentofu-repo.gpg >/dev/null"
+      args:
+        creates: /tmp/opentofu-repo.gpg
+      when: ansible_os_family == "Debian"
   tasks:
     - name: Include willbrid.repo_installer
       ansible.builtin.include_role:
