@@ -1,3 +1,5 @@
 ---
 ri_redhat_repo_template: "redhat_external_repo.j2"
 ri_redhat_repo_dir: "/etc/yum.repos.d"
+
+ri_debian_repo_keys_dir: "/etc/apt/keyrings"
