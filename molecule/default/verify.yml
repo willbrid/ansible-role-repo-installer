@@ -17,7 +17,7 @@
           changed_when: false
         - name: Verify the presence of epel and opentofu repo [RedHat]
           ansible.builtin.assert:
-            that: 
+            that:
               - epel_repo_info is defined and epel_repo_info.stdout_lines | select('match', '^Repo-id\\s+:\\s+epel$') | list | length > 0
               - opentofu_repo_info is defined and opentofu_repo_info.stdout_lines | select('match', '^Repo-id\\s+:\\s+opentofu$') | list | length > 0
       when: ansible_os_family == "RedHat"
