@@ -110,7 +110,7 @@ argument_specs:
             default: true
             description: "Whether the repository is enabled"
           extra_options:
-            type: str
+            type: dict
             required: false
             default: {}
             description: "Optional extra options of the repository"
