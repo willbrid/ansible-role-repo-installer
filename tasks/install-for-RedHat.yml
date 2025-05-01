@@ -1,4 +1,11 @@
 ---
+- name: Install dependencies packages before adding repositories [RedHat]
+  ansible.builtin.dnf: 
+    name: "{{ ri_redhat_dependencies_packages }}"
+    state: present
+    update_cache: true
+  when: ri_redhat_dependencies_packages is iterable and ri_redhat_dependencies_packages | length > 0
+
 - name: Add official repo [RedHat]
   ansible.builtin.yum_repository:
     name: "{{ item.name }}"
@@ -17,3 +24,7 @@
     mode: '0644'
   when: item.is_external_repo == true
   with_items: "{{ ri_redhat_distro_repos }}"
+
+- name: Update packages list [RedHat]
+  ansible.builtin.dnf:
+    update_cache: true
