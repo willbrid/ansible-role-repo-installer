@@ -3,6 +3,7 @@
   ansible.builtin.apt:
     pkg: "{{ ri_debian_dependencies_packages }}"
     state: present
+    update_cache: yes
   when: ri_debian_dependencies_packages is iterable and ri_debian_dependencies_packages | length > 0
 
 - name: Create repo keys directory [Debian]
