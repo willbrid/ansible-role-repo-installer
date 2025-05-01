@@ -80,6 +80,12 @@ argument_specs:
             type: str
             required: false
             description: "This repository is only valid for machines using the specified architecture (example: amd64, arm64,...)"
+      ri_redhat_dependencies_packages:
+        type: list
+        required: false
+        elements: str
+        default: []
+        description: "List of RedHat dependencies packages before installing repositories"
       ri_redhat_distro_repos:
         type: list
         elements: "dict"
