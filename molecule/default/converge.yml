@@ -3,6 +3,7 @@
   hosts: all
   gather_facts: true
   vars:
+    ri_redhat_dependencies_packages: ["ca-certificates"]
     ri_redhat_distro_repos:
       - name: epel
         description: EPEL YUM repo
