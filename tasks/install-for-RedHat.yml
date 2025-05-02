@@ -2,7 +2,7 @@
 - name: Install dependencies packages before adding repositories [RedHat]
   ansible.builtin.dnf:
     name: "{{ ri_redhat_dependencies_packages }}"
-    state: latest
+    state: present
     update_cache: true
   when: ri_redhat_dependencies_packages is iterable and ri_redhat_dependencies_packages | length > 0
 
