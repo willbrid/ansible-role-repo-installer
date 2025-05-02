@@ -39,7 +39,7 @@
             type: "gpg"
         is_external_repo: true
   pre_tasks:
-    - name: Install curl [Debian]
+    - name: Install curl and gnupg [Debian]
       ansible.builtin.apt:
         pkg: ['curl', 'gnupg']
         state: present
