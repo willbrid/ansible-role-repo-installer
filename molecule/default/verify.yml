@@ -4,9 +4,6 @@
   gather_facts: true
   tasks:
     - block:
-        - name: Update metadata cache [RedHat]
-          ansible.builtin.command: "dnf makecache"
-          changed_when: false
         - name: Get epel repo info [RedHat]
           ansible.builtin.command: "dnf repoinfo epel"
           register: epel_repo_info
