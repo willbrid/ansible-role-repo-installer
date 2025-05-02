@@ -45,7 +45,93 @@ Aucune.
 Exemple Playbook
 ----------------
 
-En cours...
+- Installation du rôle
+
+```
+mkdir -p $HOME/install-repo-installer/roles
+```
+
+```
+vim $HOME/install-repo-installer/requirements.yml
+```
+
+```yaml
+- name: ansible-role-repo-installer
+  src: git+https://github.com/willbrid/ansible-role-repo-installer.git
+  version: main
+```
+
+```
+cd $HOME/install-repo-installer && ansible-galaxy install -r requirements.yml --roles-path roles
+```
+
+On suppose qu’un fichier **hosts.ini** (dans le repertoire **$HOME/install-repo-installer**) est défini, contenant l’inventaire des serveurs utilisant des distributions **Debian** ou **RedHat**.
+
+- Utilisation du rôle dans un playbook
+
+Nous allons, par exemple, ajouter le dépôt des paquets **OpenTofu** pour les distributions **Debian** et **RedHat**.
+
+```
+vim $HOME/install-repo-installer/playbook.yml
+```
+
+```yaml
+---
+- hosts: all
+  gather_facts: true
+  vars:
+    ri_redhat_dependencies_packages: ["ca-certificates"]
+    ri_redhat_distro_repos:
+      - name: opentofu
+        description: opentofu
+        baseurl: https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/\$basearch
+        is_external_repo: true
+        enabled: true
+        extra_options:
+          repo_gpgcheck: 0
+          gpgcheck: 1
+          gpgkey: >
+            https://get.opentofu.org/opentofu.gpg
+            https://packages.opentofu.org/opentofu/tofu/gpgkey
+          sslverify: 1
+          sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+          metadata_expire: 300
+    ri_debian_dependencies_packages: ["apt-transport-https", "ca-certificates", "curl", "gnupg"]
+    ri_debian_distro_repos:
+      - name: opentofu
+        baseurl: https://packages.opentofu.org/opentofu/tofu/any/
+        distribution: any
+        components: ["main"]
+        type: "deb"
+        gpgkeys:
+          - id: main
+            url: https://get.opentofu.org/opentofu.gpg
+            type: "gpg"
+          - id: repo
+            url: file:///tmp/opentofu-repo.gpg
+            type: "gpg"
+        is_external_repo: true
+  
+  pre_tasks:
+    - name: Install curl and gnupg [Debian]
+      ansible.builtin.apt:
+        pkg: ['curl', 'gnupg']
+        state: present
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+    - name: Download opentofu asc repo key and save in /tmp/opentofu-repo.gpg [Debian]
+      ansible.builtin.shell: "curl -fsSL https://packages.opentofu.org/opentofu/tofu/gpgkey | gpg --no-tty --batch --dearmor -o /tmp/opentofu-repo.gpg >/dev/null"
+      args:
+        creates: /tmp/opentofu-repo.gpg
+      when: ansible_os_family == "Debian"
+  
+  roles:
+    - ansible-role-repo-installer
+```
+
+```
+cd $HOME/install-repo-installer && ansible-playbook -i hosts.ini playbook.yml
+```
 
 Licence
 -------
