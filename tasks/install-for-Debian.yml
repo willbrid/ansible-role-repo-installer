@@ -12,14 +12,15 @@
     state: directory
     owner: root
     group: root
-    mode: '0755'
+    mode: 0755
 
 - name: Add apt key for external repo [Debian]
   ansible.builtin.get_url:
     url: "{{ item.1.url }}"
     dest: "{{ ri_debian_repo_keys_dir }}/{{ item.0.name }}-{{ item.1.id }}.{{ item.1.type }}"
     checksum: "{{ item.1.checksum | default(omit) }}"
-  when: item.0.is_external_repo == true
+    mode: 0755
+  when: item.0.is_external_repo
   loop: "{{ ri_debian_distro_repos | subelements('gpgkeys') }}"
 
 - name: Add repo line [Debian]

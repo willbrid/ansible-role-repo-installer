@@ -45,8 +45,14 @@
         state: present
         update_cache: yes
       when: ansible_os_family == "Debian"
-    - name: Download opentofu asc repo key and save in /tmp/opentofu-repo.gpg [Debian]
-      ansible.builtin.shell: "curl -fsSL https://packages.opentofu.org/opentofu/tofu/gpgkey | gpg --no-tty --batch --dearmor -o /tmp/opentofu-repo.gpg >/dev/null"
+    - name: Download opentofu asc repo key [Debian]
+      ansible.builtin.get_url:
+        url: https://packages.opentofu.org/opentofu/tofu/gpgkey
+        dest: /tmp/opentofu-repo.asc
+        mode: '0644'
+      when: ansible_os_family == "Debian"
+    - name: Convert opentofu GPG key to binary format
+      ansible.builtin.shell: "gpg --no-tty --batch --dearmor -o /tmp/opentofu-repo.gpg /tmp/opentofu-repo.asc >/dev/null"
       args:
         creates: /tmp/opentofu-repo.gpg
       when: ansible_os_family == "Debian"

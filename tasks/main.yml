@@ -13,5 +13,5 @@
     fail_msg: "to better use this role with Debian distros, the variable ri_debian_distro_repos must be defined"
   when: ansible_os_family == "Debian"
 
-- name: Install {{ ansible_os_family }} repositories
+- name: Install repositories [{{ ansible_os_family }}]
   ansible.builtin.include_tasks: install-for-{{ ansible_os_family }}.yml

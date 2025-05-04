@@ -3,7 +3,9 @@
   hosts: all
   gather_facts: true
   tasks:
-    - block:
+    - name: Check RedHat distributions
+      when: ansible_os_family == "RedHat"
+      block:
         - name: Get epel repo info [RedHat]
           ansible.builtin.command: "dnf repoinfo epel"
           register: epel_repo_info
@@ -17,14 +19,15 @@
             that:
               - epel_repo_info is defined and epel_repo_info.stdout_lines | select('match', '^Repo-id\\s+:\\s+epel$') | list | length > 0
               - opentofu_repo_info is defined and opentofu_repo_info.stdout_lines | select('match', '^Repo-id\\s+:\\s+opentofu$') | list | length > 0
-      when: ansible_os_family == "RedHat"
 
-    - block:
+    - name: Check Debian distributions
+      when: ansible_os_family == "Debian"
+      block:
         - name: Check if repo is present in APT sources [Debian]
           ansible.builtin.shell: grep -R 'packages.opentofu.org' /etc/apt/sources.list /etc/apt/sources.list.d/ || true
           register: ri_repo_debian_check
+          changed_when: false
         - name: Assert that repo is found [Debian]
           ansible.builtin.assert:
             that:
               - ri_repo_debian_check.stdout != ''
-      when: ansible_os_family == "Debian"
