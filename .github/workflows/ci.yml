@@ -1,6 +1,6 @@
 ---
 name: CI
-on:
+"on":
   pull_request:
   push:
     branches:
@@ -39,6 +39,7 @@ jobs:
       - name: Lint code
         run: |
           yamllint .
+          ansible-lint
 
       - name: Run Molecule tests
         run: molecule test
