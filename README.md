@@ -1,18 +1,15 @@
-Ansible-role-repo-installer
-=========
+# Ansible-role-repo-installer
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/willbrid/ansible-role-repo-installer/blob/main/LICENSE) [![CI](https://github.com/willbrid/ansible-role-repo-installer/actions/workflows/ci.yml/badge.svg)](https://github.com/willbrid/ansible-role-repo-installer/actions/workflows/ci.yml)
 
 **ansible-role-repo-installer** est un rôle Ansible permettant d'ajouter facilement des dépôts logiciels sur les systèmes basés sur Debian (via APT) et RedHat (via YUM ou DNF). <br>
 Il prend en charge les dépôts officiels ou externes, la gestion des clés GPG, et offre une configuration souple grâce à des variables dédiées pour chaque famille de distribution.
 
-Exigences
-------------
+## Exigences
 
 Aucune.
 
-Description des Variables
---------------
+## Description des Variables
 
 |Nom|Type|Description|Obligatoire|Valeur par défaut|
 |---|----|-----------|-----------|-----------------|
@@ -37,13 +34,11 @@ Description des Variables
 `ri_redhat_distro_repos[].enabled`|bool|indication si c'est un dépôt RedHat qui doit être activé (true) ou non (false)|non|`true`
 `ri_redhat_distro_repos[].extra_options`|dict|les autres options de configuration d'un dépôt RedHat|non|`{}`
 
-Dépendances
-------------
+## Dépendances
 
 Aucune.
 
-Exemple Playbook
-----------------
+## Exemple Playbook
 
 - Installation du rôle
 
@@ -58,7 +53,7 @@ vim $HOME/install-repo-installer/requirements.yml
 ```yaml
 - name: ansible-role-repo-installer
   src: git+https://github.com/willbrid/ansible-role-repo-installer.git
-  version: v0.0.1
+  version: v0.0.2
 ```
 
 ```bash
@@ -133,12 +128,10 @@ vim $HOME/install-repo-installer/playbook.yml
 cd $HOME/install-repo-installer && ansible-playbook -i hosts.ini playbook.yml
 ```
 
-Licence
--------
+## Licence
 
 MIT
 
-Informations sur l'auteur
-------------------
+## Informations sur l'auteur
 
 William Bridge NGASSAM
