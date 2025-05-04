@@ -47,11 +47,11 @@ Exemple Playbook
 
 - Installation du rôle
 
-```
+```bash
 mkdir -p $HOME/install-repo-installer/roles
 ```
 
-```
+```bash
 vim $HOME/install-repo-installer/requirements.yml
 ```
 
@@ -61,17 +61,17 @@ vim $HOME/install-repo-installer/requirements.yml
   version: v0.0.1
 ```
 
-```
+```bash
 cd $HOME/install-repo-installer && ansible-galaxy install -r requirements.yml --roles-path roles
 ```
 
-On suppose qu’un fichier **hosts.ini** (dans le repertoire **$HOME/install-repo-installer**) est défini, contenant l’inventaire des serveurs utilisant des distributions **Debian** ou **RedHat**.
+> Note: On suppose qu’un fichier `hosts.ini` (dans le repertoire `$HOME/install-repo-installer`) est défini, contenant l’inventaire des serveurs de groupe `all` utilisant des distributions **Debian** ou **RedHat**.
 
 - Utilisation du rôle dans un playbook
 
 Nous allons, par exemple, ajouter le dépôt des paquets **OpenTofu** pour les distributions **Debian** et **RedHat**.
 
-```
+```bash
 vim $HOME/install-repo-installer/playbook.yml
 ```
 
@@ -129,7 +129,7 @@ vim $HOME/install-repo-installer/playbook.yml
     - ansible-role-repo-installer
 ```
 
-```
+```bash
 cd $HOME/install-repo-installer && ansible-playbook -i hosts.ini playbook.yml
 ```
 
