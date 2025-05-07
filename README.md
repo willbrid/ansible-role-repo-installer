@@ -2,8 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/willbrid/ansible-role-repo-installer/blob/main/LICENSE) [![CI](https://github.com/willbrid/ansible-role-repo-installer/actions/workflows/ci.yml/badge.svg)](https://github.com/willbrid/ansible-role-repo-installer/actions/workflows/ci.yml)
 
-**ansible-role-repo-installer** est un rôle Ansible permettant d'ajouter facilement des dépôts logiciels sur les systèmes basés sur Debian (via APT) et RedHat (via YUM ou DNF). <br>
-Il prend en charge les dépôts officiels ou externes, la gestion des clés GPG, et offre une configuration souple grâce à des variables dédiées pour chaque famille de distribution.
+Le rôle **ansible-role-repo-installer** permet d'ajouter facilement des dépôts logiciels sur les systèmes basés sur Debian (via APT) et RedHat (via YUM ou DNF). Il prend en charge les dépôts officiels ou externes, la gestion des clés GPG, et offre une configuration souple grâce à des variables dédiées pour chaque famille de distribution.
 
 ## Exigences
 
@@ -60,7 +59,7 @@ vim $HOME/install-repo-installer/requirements.yml
 cd $HOME/install-repo-installer && ansible-galaxy install -r requirements.yml --roles-path roles
 ```
 
-> Note: On suppose qu’un fichier `hosts.ini` (dans le repertoire `$HOME/install-repo-installer`) est défini, contenant l’inventaire des serveurs de groupe `all` utilisant des distributions **Debian** ou **RedHat**.
+> Note: On suppose qu’un fichier `hosts.ini` (dans le repertoire `$HOME/install-repo-installer`) est défini, contenant l’inventaire des serveurs de groupe `all` utilisant des distributions `Debian` ou `RedHat`.
 
 - Utilisation du rôle dans un playbook
 
