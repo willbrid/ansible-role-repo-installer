@@ -2,42 +2,10 @@
 - name: Converge
   hosts: all
   gather_facts: true
-  vars:
-    ri_redhat_dependencies_packages: ["ca-certificates"]
-    ri_redhat_distro_repos:
-      - name: epel
-        description: EPEL YUM repo
-        baseurl: https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch/
-        use_explicit_repo: false
-      - name: opentofu
-        description: opentofu
-        baseurl: https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/\$basearch
-        use_explicit_repo: true
-        enabled: true
-        extra_options:
-          repo_gpgcheck: 0
-          gpgcheck: 1
-          gpgkey: >
-            https://get.opentofu.org/opentofu.gpg
-            https://packages.opentofu.org/opentofu/tofu/gpgkey
-          sslverify: 1
-          sslcacert: /etc/pki/tls/certs/ca-bundle.crt
-          metadata_expire: 300
-    ri_debian_dependencies_packages: ["apt-transport-https", "ca-certificates", "curl", "gnupg"]
-    ri_debian_distro_repos:
-      - name: opentofu
-        baseurl: https://packages.opentofu.org/opentofu/tofu/any/
-        distribution: any
-        components: ["main"]
-        type: "deb"
-        gpgkeys:
-          - id: main
-            url: https://get.opentofu.org/opentofu.gpg
-            type: "gpg"
-          - id: repo
-            url: file:///tmp/opentofu-repo.gpg
-            type: "gpg"
-        use_explicit_repo: true
+  vars_files:
+    - "vars/debian.yml"
+    - "vars/redhat.yml"
+
   pre_tasks:
     - name: Install curl and gnupg [Debian]
       ansible.builtin.apt:
@@ -57,6 +25,10 @@
         creates: /tmp/opentofu-repo.gpg
       when: ansible_os_family == "Debian"
   tasks:
+    - name: Include os-specific vars (Ubuntu only)
+      ansible.builtin.include_vars: "vars/ubuntu.yml"
+      when: ansible_distribution == "Ubuntu"
+
     - name: Include willbrid.repo_installer
       ansible.builtin.include_role:
         name: "willbrid.repo_installer"
