@@ -25,16 +25,19 @@ argument_specs:
             description: "The name identifier of the repository"
           baseurl:
             type: str
-            required: true
+            required: false
+            default: ""
             description: "The base URL for the repository"
           distribution:
             type: str
-            required: true
+            required: false
+            default: ""
             description: "The distribution (example: focal, bullseye, noble,...) used for the repository"
           components:
             type: list
             elements: str
-            required: true
+            required: false
+            default: []
             description: "The components (example: main, stable,...) for the repository"
           gpgkeys:
             type: list
