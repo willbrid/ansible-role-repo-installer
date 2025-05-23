@@ -71,11 +71,11 @@ argument_specs:
             choices:
               - "deb"
               - "deb-src"
-          is_external_repo:
+          use_explicit_repo:
             type: bool
             required: false
             default: true
-            description: "Whether the repository is an official Debian repository (false) or an external/custom repository (true)"
+            description: "Whether the Debian repository is defined in full form (true) or in simple declaration (false)"
           arch:
             type: str
             required: false
@@ -105,11 +105,11 @@ argument_specs:
             type: str
             required: true
             description: "The base URL for the repository"
-          is_external_repo:
+          use_explicit_repo:
             type: bool
             required: false
             default: true
-            description: "Whether the repository is an official RedHat repository (false) or an external/custom repository (true)"
+            description: "Whether the RedHat repository is defined in full form (true) or in simple declaration (false)"
           enabled:
             type: bool
             required: false
