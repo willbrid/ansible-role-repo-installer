@@ -52,7 +52,7 @@ vim $HOME/install-repo-installer/requirements.yml
 ```yaml
 - name: ansible-role-repo-installer
   src: git+https://github.com/willbrid/ansible-role-repo-installer.git
-  version: v0.0.2
+  version: v0.1.0
 ```
 
 ```bash
