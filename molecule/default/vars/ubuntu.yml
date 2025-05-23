@@ -1,0 +1,19 @@
+---
+ri_debian_dependencies_packages: ["apt-transport-https", "ca-certificates", "curl", "gnupg", "software-properties-common"]
+ri_debian_distro_repos:
+  - name: opentofu
+    baseurl: https://packages.opentofu.org/opentofu/tofu/any/
+    distribution: any
+    components: ["main"]
+    type: "deb"
+    gpgkeys:
+      - id: main
+        url: https://get.opentofu.org/opentofu.gpg
+        type: "gpg"
+      - id: repo
+        url: file:///tmp/opentofu-repo.gpg
+        type: "gpg"
+    use_explicit_repo: true
+  - name: ppa:ondrej/php
+    use_explicit_repo: false
+    gpgkeys: []
