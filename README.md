@@ -19,7 +19,7 @@ Aucune.
 `ri_debian_distro_repos[].distribution`|str|distribution d'un dépôt Debian (focal, bullseye, noble,...)|oui|``
 `ri_debian_distro_repos[].components`|list|composants d'un dépôt Debian (main, stable,...)|oui|``
 `ri_debian_distro_repos[].type`|str|le type d'un dépôt Debian(deb ou deb-src)|non|`"deb"`
-`ri_debian_distro_repos[].is_external_repo`|bool|indication si c'est un dépôt Debian officiel (false) ou externe (true)|non|`true`
+`ri_debian_distro_repos[].use_explicit_repo`|bool|indication si le dépôt Debian est défini sous forme complète (true) ou sous forme de déclaration simple (false)|non|`true`
 `ri_debian_distro_repos[].arch`|str|indication sur l'architecture supportée par un dépôt Debian (amd64, arm64,...)|non|`""`
 `ri_debian_distro_repos[].gpgkeys`|list|les clés d'un dépôt Debian (Voir les caractéristiques de ses éléments ci-dessous)|non|`"[]"`
 `ri_debian_distro_repos[].gpgkeys[].id`|str|identifiant unique d'une clé d'un dépôt Debian|oui|`""`
@@ -29,7 +29,7 @@ Aucune.
 `ri_redhat_distro_repos[].name`|str|nom identifiant d'un dépôt RedHat|oui|``
 `ri_redhat_distro_repos[].description`|str|description d'un dépôt RedHat|non|`ri_redhat_distro_repos[].name`
 `ri_redhat_distro_repos[].baseurl`|str|url d'un dépôt RedHat|oui|``
-`ri_redhat_distro_repos[].is_external_repo`|bool|indication si c'est un dépôt RedHat est officiel (false) ou externe (true)|non|`true`
+`ri_redhat_distro_repos[].use_explicit_repo`|bool|indication si le dépôt RedHat est défini sous forme complète (true) ou sous forme de déclaration simple (false)|non|`true`
 `ri_redhat_distro_repos[].enabled`|bool|indication si c'est un dépôt RedHat qui doit être activé (true) ou non (false)|non|`true`
 `ri_redhat_distro_repos[].extra_options`|dict|les autres options de configuration d'un dépôt RedHat|non|`{}`
 
@@ -79,7 +79,7 @@ vim $HOME/install-repo-installer/playbook.yml
       - name: opentofu
         description: opentofu
         baseurl: https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/\$basearch
-        is_external_repo: true
+        use_explicit_repo: true
         enabled: true
         extra_options:
           repo_gpgcheck: 0
@@ -104,7 +104,7 @@ vim $HOME/install-repo-installer/playbook.yml
           - id: repo
             url: file:///tmp/opentofu-repo.gpg
             type: "gpg"
-        is_external_repo: true
+        use_explicit_repo: true
   
   pre_tasks:
     - name: Install curl and gnupg [Debian]
