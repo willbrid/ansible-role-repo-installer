@@ -27,7 +27,7 @@
     dest: "{{ ri_debian_repo_keys_dir }}/{{ item.0.name }}-{{ item.1.id }}.{{ item.1.type }}"
     checksum: "{{ item.1.checksum | default(omit) }}"
     mode: 0755
-  when: item.0.use_explicit_repo
+  when: item.0.use_explicit_repo and item.0.gpgkeys | length > 0
   loop: "{{ ri_debian_distro_repos | subelements('gpgkeys') }}"
 
 - name: Add explicit repo [Debian]
