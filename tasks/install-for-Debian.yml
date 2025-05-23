@@ -6,6 +6,13 @@
     update_cache: yes
   when: ri_debian_dependencies_packages is iterable and ri_debian_dependencies_packages | length > 0
 
+- name: Add non-explicit repo [Debian]
+  ansible.builtin.apt_repository:
+    repo: "{{ item.name }}"
+    state: present
+  when: not item.use_explicit_repo
+  with_items: "{{ ri_debian_distro_repos }}"
+
 - name: Create repo keys directory [Debian]
   ansible.builtin.file:
     name: "{{ ri_debian_repo_keys_dir }}"
@@ -38,7 +45,8 @@
       {%- endif -%}
       {{ ' ' }}{{ item.baseurl }} {{ item.distribution }} {{ item.components | join(' ') }}
     state: present
-    filename: "{{ item.use_explicit_repo == true | ternary(item.name, omit) }}"
+    filename: "{{ item.name }}"
+  when: item.use_explicit_repo
   with_items: "{{ ri_debian_distro_repos }}"
 
 - name: Update packages list [Debian]
