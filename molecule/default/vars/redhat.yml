@@ -1,21 +1,21 @@
 ---
 ri_redhat_dependencies_packages: ["ca-certificates"]
 ri_redhat_distro_repos:
-- name: epel
-  description: EPEL YUM repo
-  baseurl: https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch/
-  use_explicit_repo: false
-- name: opentofu
-  description: opentofu
-  baseurl: https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/\$basearch
-  use_explicit_repo: true
-  enabled: true
-  extra_options:
-    repo_gpgcheck: 0
-    gpgcheck: 1
-    gpgkey: >
-      https://get.opentofu.org/opentofu.gpg
-      https://packages.opentofu.org/opentofu/tofu/gpgkey
-    sslverify: 1
-    sslcacert: /etc/pki/tls/certs/ca-bundle.crt
-    metadata_expire: 300
+  - name: epel
+    description: EPEL YUM repo
+    baseurl: https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch/
+    use_explicit_repo: false
+  - name: opentofu
+    description: opentofu
+    baseurl: https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/\$basearch
+    use_explicit_repo: true
+    enabled: true
+    extra_options:
+      repo_gpgcheck: 0
+      gpgcheck: 1
+      gpgkey: >
+        https://get.opentofu.org/opentofu.gpg
+        https://packages.opentofu.org/opentofu/tofu/gpgkey
+      sslverify: 1
+      sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+      metadata_expire: 300
