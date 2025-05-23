@@ -8,11 +8,11 @@
       - name: epel
         description: EPEL YUM repo
         baseurl: https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch/
-        is_external_repo: false
+        use_explicit_repo: false
       - name: opentofu
         description: opentofu
         baseurl: https://packages.opentofu.org/opentofu/tofu/rpm_any/rpm_any/\$basearch
-        is_external_repo: true
+        use_explicit_repo: true
         enabled: true
         extra_options:
           repo_gpgcheck: 0
@@ -37,7 +37,7 @@
           - id: repo
             url: file:///tmp/opentofu-repo.gpg
             type: "gpg"
-        is_external_repo: true
+        use_explicit_repo: true
   pre_tasks:
     - name: Install curl and gnupg [Debian]
       ansible.builtin.apt:
