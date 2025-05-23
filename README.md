@@ -15,9 +15,9 @@ Aucune.
 `ri_debian_dependencies_packages`|list|liste des dépendences nécessaires avant l'installation des dépôts des distributions Debian|non|`[]`
 `ri_debian_distro_repos`|list|liste dont chaque élément est une caractéristique d'un dépôts d'une distribution Debian. (Voir les caractéristiques de ses éléments ci-dessous)|oui (pour les distributions Debian)|`[]`
 `ri_debian_distro_repos[].name`|str|nom identifiant d'un dépôt Debian|oui|``
-`ri_debian_distro_repos[].baseurl`|str|url d'un dépôt Debian|oui|``
-`ri_debian_distro_repos[].distribution`|str|distribution d'un dépôt Debian (focal, bullseye, noble,...)|oui|``
-`ri_debian_distro_repos[].components`|list|composants d'un dépôt Debian (main, stable,...)|oui|``
+`ri_debian_distro_repos[].baseurl`|str|url d'un dépôt Debian|non|`""`
+`ri_debian_distro_repos[].distribution`|str|distribution d'un dépôt Debian (focal, bullseye, noble,...)|non|`""`
+`ri_debian_distro_repos[].components`|list|composants d'un dépôt Debian (main, stable,...)|non|`[]`
 `ri_debian_distro_repos[].type`|str|le type d'un dépôt Debian(deb ou deb-src)|non|`"deb"`
 `ri_debian_distro_repos[].use_explicit_repo`|bool|indication si le dépôt Debian est défini sous forme complète (true) ou sous forme de déclaration simple (false)|non|`true`
 `ri_debian_distro_repos[].arch`|str|indication sur l'architecture supportée par un dépôt Debian (amd64, arm64,...)|non|`""`
