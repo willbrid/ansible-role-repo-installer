@@ -14,7 +14,7 @@
     group: root
     mode: 0755
 
-- name: Add apt key for external repo [Debian]
+- name: Add apt key for explicit repo [Debian]
   ansible.builtin.get_url:
     url: "{{ item.1.url }}"
     dest: "{{ ri_debian_repo_keys_dir }}/{{ item.0.name }}-{{ item.1.id }}.{{ item.1.type }}"
@@ -23,7 +23,7 @@
   when: item.0.use_explicit_repo
   loop: "{{ ri_debian_distro_repos | subelements('gpgkeys') }}"
 
-- name: Add repo line [Debian]
+- name: Add explicit repo [Debian]
   ansible.builtin.apt_repository:
     repo: >-
       {{ item.type }}{{ ' ' }}
