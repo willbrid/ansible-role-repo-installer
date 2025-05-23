@@ -23,11 +23,21 @@
     - name: Check Debian distributions
       when: ansible_os_family == "Debian"
       block:
-        - name: Check if repo is present in APT sources [Debian]
+        - name: Check if opentofu repo is present in APT sources [Debian]
           ansible.builtin.shell: grep -R 'packages.opentofu.org' /etc/apt/sources.list /etc/apt/sources.list.d/ || true
           register: ri_repo_debian_check
           changed_when: false
-        - name: Assert that repo is found [Debian]
+        - name: Assert that opentofu repo is found [Debian]
           ansible.builtin.assert:
             that:
               - ri_repo_debian_check.stdout != ''
+        - name: Check if ppa:ondrej/php repo is present in APT sources [Debian]
+          ansible.builtin.shell: grep -R 'ondrej/php' /etc/apt/sources.list /etc/apt/sources.list.d/ || true
+          register: ri_repo_ubuntu_check
+          changed_when: false
+          when: ansible_distribution == "Ubuntu"
+        - name: Assert that ppa:ondrej/php repo is found [Debian]
+          ansible.builtin.assert:
+            that:
+              - ri_repo_ubuntu_check.stdout != ''
+          when: ansible_distribution == "Ubuntu"
