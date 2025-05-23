@@ -20,25 +20,25 @@
     dest: "{{ ri_debian_repo_keys_dir }}/{{ item.0.name }}-{{ item.1.id }}.{{ item.1.type }}"
     checksum: "{{ item.1.checksum | default(omit) }}"
     mode: 0755
-  when: item.0.is_external_repo
+  when: item.0.use_explicit_repo
   loop: "{{ ri_debian_distro_repos | subelements('gpgkeys') }}"
 
 - name: Add repo line [Debian]
   ansible.builtin.apt_repository:
     repo: >-
       {{ item.type }}{{ ' ' }}
-      {%- if item.arch is defined or item.is_external_repo == true -%}
+      {%- if item.arch is defined or item.use_explicit_repo == true -%}
       [
       {%- if item.arch is defined %}arch={{ item.arch }}{% endif -%}
-      {%- if item.arch is defined and item.is_external_repo == true and item.gpgkeys is iterable and item.gpgkeys | length > 0 %} {% endif -%}
-      {%- if item.is_external_repo == true and item.gpgkeys is iterable and item.gpgkeys | length > 0 %}
+      {%- if item.arch is defined and item.use_explicit_repo == true and item.gpgkeys is iterable and item.gpgkeys | length > 0 %} {% endif -%}
+      {%- if item.use_explicit_repo == true and item.gpgkeys is iterable and item.gpgkeys | length > 0 %}
       signed-by={% for key in item.gpgkeys -%}{{ ri_debian_repo_keys_dir }}/{{ item.name }}-{{ key.id }}.{{ key.type }}{{ ',' if not loop.last }}{%- endfor %}
       {% endif -%}
       ]
       {%- endif -%}
       {{ ' ' }}{{ item.baseurl }} {{ item.distribution }} {{ item.components | join(' ') }}
     state: present
-    filename: "{{ item.is_external_repo == true | ternary(item.name, omit) }}"
+    filename: "{{ item.use_explicit_repo == true | ternary(item.name, omit) }}"
   with_items: "{{ ri_debian_distro_repos }}"
 
 - name: Update packages list [Debian]
