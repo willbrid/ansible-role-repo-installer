@@ -42,7 +42,7 @@ Aucune.
 - Installation du rôle
 
 ```bash
-mkdir -p $HOME/install-repo-installer/roles
+mkdir -p $HOME/install-repo-installer
 ```
 
 ```bash
@@ -56,7 +56,7 @@ vim $HOME/install-repo-installer/requirements.yml
 ```
 
 ```bash
-cd $HOME/install-repo-installer && ansible-galaxy install -r requirements.yml --roles-path roles
+cd $HOME/install-repo-installer && ansible-galaxy install --force -r requirements.yml
 ```
 
 > Note: On suppose qu’un fichier `hosts.ini` (dans le repertoire `$HOME/install-repo-installer`) est défini, contenant l’inventaire des serveurs de groupe `all` utilisant des distributions `Debian` ou `RedHat`.
